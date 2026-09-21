@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Catalogue</title>
+    <!-- Chargement du script Telegram obligatoire -->
+    <script src="https://telegram.org"></script>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f9; padding: 20px; text-align: center; }
+        .produit { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        button { background: #0088cc; color: white; border: none; padding: 10px 20px; border-radius: 5px; font-size: 16px; width: 100%; }
+    </style>
+</head>
+<body>
+
+    <h2>🛍️ Mon Catalogue</h2>
+
+    <div class="produit">
+        <h3>Article Exemple</h3>
+        <p>Prix : 20 €</p>
+        <p>Paiement : En main propre uniquement</p>
+        <button id="btn-commander">Commander cet article</button>
+    </div>
+
+    <script>
+        // Initialiser l'application Telegram
+        const tg = window.Telegram.WebApp;
+        tg.expand(); // Ouvre la mini app en grand écran
+
+        document.getElementById('btn-commander').addEventListener('click', () => {
+            const commande = {
+                article: "Article Exemple",
+                prix: "20 €",
+                methode: "Main propre"
+            };
+            // Envoie la commande au bot et ferme l'application
+            tg.sendData(JSON.stringify(commande));
+        });
+    </script>
+</body>
+</html>
+
