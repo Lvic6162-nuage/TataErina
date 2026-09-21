@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boutique</title>
+    <script src="https://telegram.org"></script>
+    <style>
+        body { font-family: 'Segoe UI', Roboto, sans-serif; background: #0a0a12; color: #e0e0ff; padding: 10px; margin: 0; text-align: center; }
+        .header { padding: 20px 10px; background: #121222; border-bottom: 1px solid #7928ca; box-shadow: 0 0 15px rgba(121,40,202,0.3); }
+        .logo { font-size: 26px; font-weight: bold; color: #ffffff; letter-spacing: 2px; text-shadow: 0 0 8px #00ffff; }
+        .info-zone { background: rgba(15, 15, 30, 0.8); border: 1px dashed #00ffff; padding: 12px; border-radius: 8px; margin: 15px 5px; text-align: left; font-size: 13px; }
+        .info-zone h4 { margin: 0 0 5px 0; color: #00ffff; text-transform: uppercase; }
+        .grille-produits { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 5px; }
+        .produit-card { background: #121222; border: 1px solid #33333f; border-radius: 12px; padding: 10px; text-align: left; display: flex; flex-direction: column; justify-content: space-between; }
+        .produit-img { width: 100%; height: 130px; object-fit: cover; border-radius: 8px; background: #000; }
+        .produit-card h3 { font-size: 14px; margin: 8px 0 4px 0; color: #fff; }
+        .select-option { width: 100%; padding: 6px; background: #1a1a30; border: 1px solid #7928ca; color: white; border-radius: 6px; font-size: 12px; margin-bottom: 8px; outline: none; }
+        .prix-produit { color: #00ffff; font-weight: bold; font-size: 16px; margin-bottom: 8px; text-shadow: 0 0 5px #00ffff; }
+        .btn-add { background: linear-gradient(90deg, #0070f3, #00dfd8); color: white; border: none; padding: 8px; border-radius: 6px; font-size: 12px; font-weight: bold; width: 100%; cursor: pointer; text-transform: uppercase; }
+        .panier-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #121222; border-top: 1px solid #7928ca; padding: 15px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 -5px 15px rgba(0,0,0,0.5); z-index: 100; }
+        .panier-total { text-align: left; }
+        .panier-total span { display: block; font-size: 12px; color: #8888aa; }
+        .panier-total strong { font-size: 18px; color: #00ffff; }
+        .btn-valider { background: linear-gradient(90deg, #7928ca, #ff0080); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; text-transform: uppercase; }
+        .spacer { height: 80px; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="logo">TaTa Erina </div>
+    </div>
+
+    <div class="info-zone">
+        <h4>📡 INFOS &amp; LIVRAISON</h4>
+        • 🕒 Horaires : 10h - 00h00<br>
+        • 📍 Zone : Toulouse et ces alentours.
+    </div>
+
+    <div class="grille-produits">
+        
+        <!-- Weed -->
+        <div class="produit-card">
+            <img class="produit-img" src="https://unsplash.com">
+            <h3> GG14 </h3>
+            <select class="select-option" onchange="changerPrix(this)">
+                <option value="5" data-POIDS="1G">1G— 50 €</option>
+                <option value="10" data-POIDS="3G">G — 100€</option>
+                <option value="15" data-POIDS="5G">5G — 150 €</option>
+                <option value="25" data-POIDS="10ml">10 ml — 25,00 €</option>
+            </select>
+            <div class="prix-produit">5,00 €</div>
+            <button class="btn-add" onclick="ajouterAuPanier('Aicha 1', this)">Ajouter 🛒</button>
+        </div>
+
+        <!-- PARFUM 2 -->
+        <div class="produit-card">
+            <img class="produit-img" src="https://unsplash.com">
+            <h3>Aicha #2</h3>
+            <select class="select-option" onchange="changerPrix(this)">
+                <option value="5" data-taille="1ml">1 ml — 5,00 €</option>
+                <option value="10" data-taille="3ml">3 ml — 10,00 €</option>
+                <option value="15" data-taille="5ml">5 ml — 15,00 €</option>
+                <option value="25" data-taille="10ml">10 ml — 25,00 €</option>
+            </select>
+            <div class="prix-produit">5,00 €</div>
+            <button class="btn-add" onclick="ajouterAuPanier('Aicha 2', this)">Ajouter 🛒</button>
+        </div>
+
+        <!-- PARFUM 3 -->
+        <div class="produit-card">
+            <img class="produit-img" src="https://unsplash.com">
+            <h3>Aicha #3</h3>
+            <select class="select-option" onchange="changerPrix(this)">
+                <option value="5" data-taille="1ml">1 ml — 5,00 €</option>
+                <option value="10" data-taille="3ml">3 ml — 10,00 €</option>
+                <option value="15" data-taille="5ml">5 ml — 15,00 €</option>
+                <option value="25" data-taille="10ml">10 ml — 25,00 €</option>
+            </select>
+            <div class="prix-produit">5,00 €</div>
+            <button class="btn-add" onclick="ajouterAuPanier('Aicha 3', this)">Ajouter 🛒</button>
+        </div>
+
+        <!-- PARFUM 4 -->
+        <div class="produit-card">
+            <img class="produit-img" src="https://unsplash.com">
+            <h3>Aicha #4</h3>
+            <select class="select-option" onchange="changerPrix(this)">
+                <option value="5" data-taille="1ml">1 ml — 5,00 €</option>
+                <option value="10" data-taille="3ml">3 ml — 10,00 €</option>
+                <option value="15" data-taille="5ml">5 ml — 15,00 €</option>
+                <option value="25" data-taille="10ml">10 ml — 25,00 €</option>
+            </select>
+            <div class="prix-produit">5,00 €</div>
+            <button class="btn-add" onclick="ajouterAuPanier('Aicha 4', this)">Ajouter 🛒</button>
+        </div>
+
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="panier-bar">
+        <div class="panier-total">
+            <span id="panier-nb">0 produit</span>
+            <strong id="panier-somme">0,00 €</strong>
+        </div>
+        <button class="btn-valider" onclick="validerCommande()">Commander ⚡</button>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp; tg.expand(); let panier = [];
+        function changerPrix(e) { const p = parseFloat(e.value).toFixed(2); e.parentElement.querySelector('.prix-produit').innerText = `${p} €`; }
+        
+        function ajouterAuPanier(n, b) {
+            const c = b.parentElement; const s = c.querySelector('.select-option'); const o = s.options[s.selectedIndex];
+            const t = o.getAttribute('data-taille'); const p = parseFloat(s.value);
+            panier.push({ nom: n, taille: t, prix: p }); mettreAJourPanierBar();
+            const a = b.innerText; b.innerText = "Ajouté ! ✓"; b.style.background = "#2ecc71";
+            setTimeout(() => { b.innerText = a; b.style.background = "linear-gradient(90deg, #0070f3, #00dfd8)"; }, 800);
+        }
+
+        function mettreAJourPanierBar() {
+            const n = panier.length; const s = panier.reduce((sum, item) => sum + item.prix, 0).toFixed(2);
+            document.getElementById('panier-nb').innerText = `${n} produit(s)`; document.getElementById('panier-somme').innerText = `${s} €`;
+        }
+
+        function validerCommande() {
+            if (panier.length === 0) { alert("Panier vide !"); return; }
+            let t = `🚨 [NOUVELLE COMMANDE] :\n`; let tot = 0;
+            panier.forEach((i) => { t += `• ${i.nom} (${i.taille}) — ${i.prix.toFixed(2)} €\n`; tot += i.prix; });
+            t += `\n💰 TOTAL : ${tot.toFixed(2)} €\n⚡ En main propre.`;
+            window.open(`https://t.me{encodeURIComponent(t)}`, '_blank');
+        }
+    </script>
+</body>
+</html>
