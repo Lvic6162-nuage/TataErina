@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AICHA NEXUS SHOP</title>
+    <script src="https://telegram.org"></script>
+    <style>
+        body { font-family: 'Impact', 'Segoe UI', sans-serif; background: #05050a; color: #00ffff; padding: 10px; margin: 0; text-transform: uppercase; letter-spacing: 0.5px; }
+        .header { padding: 15px; background: linear-gradient(180deg, #ff0055 0%, rgba(5,5,10,0) 100%); border-bottom: 2px solid #ff0055; text-align: left; position: relative; margin-bottom: 15px;}
+        .logo { font-size: 28px; font-weight: 900; color: #fff; text-shadow: 0 0 10px #ff0055, 0 0 20px #ff0055; }
+        .version { position: absolute; right: 15px; top: 22px; font-size: 10px; color: #00ffff; border: 1px solid #00ffff; padding: 2px 5px; }
+        .hud-top-actions { display: flex; justify-content: space-between; margin: 0 5px 15px 5px; }
+        .hud-btn { background: #0f1026; border: 1px solid #00ffff; color: #00ffff; padding: 10px 15px; font-size: 12px; font-weight: bold; border-radius: 4px; box-shadow: 0 0 8px rgba(0,255,255,0.2); cursor: pointer; }
+        .hud-btn-pink { border-color: #ff0055; color: #ff0055; box-shadow: 0 0 8px rgba(255,0,85,0.2); }
+        .grille-produits { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 5px; margin-bottom: 90px; }
+        .produit-card { background: #0d0e15; border: 1px solid #202232; position: relative; padding: 8px; clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%); display: flex; flex-direction: column; justify-content: space-between; height: 260px; }
+        .produit-card::before { content: 'ITEM'; position: absolute; top: -7px; left: 10px; font-size: 8px; background: #05050a; padding: 0 4px; color: #ff0055; }
+        .produit-img { width: 100%; height: 110px; object-fit: cover; filter: hue-rotate(320deg) brightness(0.9); border: 1px solid #1a1b26; }
+        .produit-card h3 { font-size: 13px; margin: 6px 0 2px 0; color: #fff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .select-option { width: 100%; padding: 6px; background: #141526; border: 1px solid #ff0055; color: #fff; font-size: 11px; margin-bottom: 6px; outline: none; font-family: sans-serif; }
+        .prix-produit { color: #ff0055; font-weight: bold; font-size: 16px; margin-bottom: 6px; text-shadow: 0 0 5px rgba(255,0,85,0.5); }
+        .btn-add { background: #00ffff; color: #000; border: none; padding: 8px; font-size: 11px; font-weight: 900; width: 100%; cursor: pointer; transition: 0.2s; }
+        .popup-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(4px); }
+        .popup-window { background: #0d0e15; border: 2px solid #00ffff; width: 85%; max-width: 320px; padding: 15px; position: relative; box-shadow: 0 0 20px rgba(0,255,255,0.4); text-align: left; }
+        .popup-window-pink { border-color: #ff0055; box-shadow: 0 0 20px rgba(255,0,85,0.4); }
+        .popup-title { font-size: 16px; color: #fff; margin-top: 0; margin-bottom: 15px; border-bottom: 1px solid #202232; padding-bottom: 5px; }
+        .popup-close { position: absolute; right: 10px; top: 10px; background: none; border: 1px solid #ff0055; color: #ff0055; padding: 2px 6px; font-size: 10px; cursor: pointer; }
+        .hud-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #0d0e15; border-top: 2px solid #00ffff; padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; z-index: 500; box-shadow: 0 -5px 15px rgba(0,0,0,0.8); }
+        .hud-total-info { text-align: left; }
+        .hud-total-info span { font-size: 10px; color: #8888aa; display: block; }
+        .hud-total-info strong { font-size: 18px; color: #00ffff; text-shadow: 0 0 5px #00ffff; }
+        .btn-execute { background: #ff0055; color: #fff; border: none; padding: 10px 18px; font-weight: 900; font-size: 13px; cursor: pointer; box-shadow: 0 0 10px #ff0055; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="logo">AICHA CORPS</div>
+        <div class="subtitle">Extracts // Nexus Market</div>
+        <div class="version">SYS_V2.6</div>
+    </div>
+
+    <div class="hud-top-actions">
+        <button class="hud-btn" onclick="togglePopup('popup-aide', true)">📊 COM-LINK / HORAIRES</button>
+        <button class="hud-btn hud-btn-pink" onclick="togglePopup('popup-panier', true)">🛒 CART CONTENTS</button>
+    </div>
+
+    <div class="grille-produits">
+        <div class="produit-card">
+            <img class="produit-img" src="https://unsplash.com">
+            <h3>AICHA V.1</h3>
+            <select class="select-option" onchange="majPrixCard(this)">
+                <option value="5">1 ML (+1ml Offert) — 5€</option>
+                <option value="10">3 ML (+1ml Offert) — 10€</option>
+                <option value="15">5 ML (+1ml Offert) — 15€</option>
+                <option value="25">10 ML (+1ml Offert) — 25€</option>
+            </select>
+            <div class="prix-produit">5.00 €</div>
+            <button class="btn-add" onclick="injecterPanier('AICHA V.1', this)">+ LOAD ITEM</button>
+        </div>
+
+        <div class="produit-card">
+            <img class="produit-img" src="https://unsplash.com">
+            <h3>AICHA V.2</h3>
+            <select class="select-option" onchange="majPrixCard(this)">
+                <option value="5">1 ML (+1ml Offert) — 5€</option>
+                <option value="10">3 ML (+1ml Offert) — 10€</option>
+                <option value="15">5 ML (+1ml Offert) — 15€</option>
+                <option value="25">10 ML (+1ml Offert) — 25€</option>
+            </select>
+            <div class="prix-produit">5.00 €</div>
+            <button class="btn-add" onclick="injecterPanier('AICHA V.2', this)">+ LOAD ITEM</button>
+        </div>
+
+        <div class="produit-card">
+            <img class="produit-img" src="https://unsplash.com">
+            <h3>AICHA V.3</h3>
+            <select class="select-option" onchange="majPrixCard(this)">
+                <option value="5">1 ML (+1ml Offert) — 5€</option>
+                <option value="10">3 ML (+1ml Offert) — 10€</option>
+                <option value="15">5 ML (+1ml Offert) — 15€</option>
+                <option value="25">10 ML (+1ml Offert) — 25€</option>
+            </select>
+            <div class="prix-produit">5.00 €</div>
+            <button class="btn-add" onclick="injecterPanier('AICHA V.3', this)">+ LOAD ITEM</button>
+        </div>
+
+        <div class="produit-card">
+            <img class="produit-img" src="https://unsplash.com">
+            <h3>AICHA V.4</h3>
+            <select class="select-option" onchange="majPrixCard(this)">
+                <option value="5">1 ML (+1ml Offert) — 5€</option>
+                <option value="10">3 ML (+1ml Offert) — 10€</option>
+                <option value="15">5 ML (+1ml Offert) — 15€</option>
+                <option value="25">10 ML (+1ml Offert) — 25€</option>
+            </select>
+            <div class="prix-produit">5.00 €</div>
+            <button class="btn-add" onclick="injecterPanier('AICHA V.4', this)">+ LOAD ITEM</button>
+        </div>
+    </div>
+
+    <div id="popup-aide" class="popup-overlay" onclick="togglePopup('popup-aide', false)">
+        <div class="popup-window" onclick="event.stopPropagation()">
+            <button class="popup-close" onclick="togglePopup('popup-aide', false)">[X]</button>
+            <h3 class="popup-title">📊 TRANSMISSION INTERFACES</h3>
+            <p style="color:#00ffff; margin-bottom:5px;">🕒 TIMELINE OPERATIONAL :</p>
+            <p style="margin:0 0 15px 0; color:#fff; font-size:13px; font-family:sans-serif;">LUNDI - SAMEDI : 10H00 - 20H00</p>
+            <p style="color:#00ffff; margin-bottom:5px;">📍 NAVIGATION ZONE :</p>
+            <p style="margin:0; color:#fff; font-size:13px; font-family:sans-serif;">REMISE PHYSIQUE / MAIN PROPRE EN CENTRE-VILLE OU GARE.</p>
+        </div>
+    </div>
+
+    <div id="popup-panier" class="popup-overlay" onclick="togglePopup('popup-panier', false)">
+        <div class="popup-window popup-window-pink" onclick="event.stopPropagation()">
+            <button class="popup-close" onclick="togglePopup('popup-panier', false)">[X]</button>
+            <h3 class="popup-title" style="border-color:#ff0055;">🛒 MANIFEST DETAILS</h3>
+            <div id="panier-liste-complete" style="font-family:sans-serif; font-size:13px; color:#fff; max-height:180px; overflow-y:auto;">
+                VOTRE PANIER EST VIDE. COCHEZ DES BLOCS D'ARTICLES.
+            </div>
+        </div>
+    </div>
+
+    <div class="hud-bar">
+        <div class="hud-total-info">
+            <span id="txt-compteur">0 ITEM BUFFERED</span>
+            <strong id="txt-somme">0.00 €</strong>
+        </div>
+        <button class="btn-execute" onclick="transmettreSysteme()">EXECUTE ORDER ⚡</button>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp; tg.expand();
+        let monPanier = [];
+
+        function togglePopup(id, open) {
+            document.getElementById(id).style.display = open ? 'flex' : 'none';
+            if(id === 'popup-panier' && open) afficherLePanier();
+        }
+
+        function majPrixCard(select) {
+            const val = parseFloat(select.value).toFixed(2);
+            select.parentElement.querySelector('.prix-produit').innerText = `${val} €`;
+        }
+
+        function injecterPanier(nom, bouton) {
+            const card = bouton.parentElement;
+            const s = card.querySelector('.select-option');
+
+const o = s.options[s.selectedIndex];
+const texteOption = o.text.split('—')[0].trim();
+const prixNum = parseFloat(s.value);
+monPanier.push({ nom: nom, configuration: texteOption, prix: prixNum });
+document.getElementById('txt-compteur').innerText = ${monPanier.length} ITEM(S) BUFFERED;
+document.getElementById('txt-somme').innerText = ${monPanier.reduce((sum, i) => sum + i.prix, 0).toFixed(2)} €;
+bouton.innerText = "✓ PARSED";
+bouton.style.background = "#ff0055";
+bouton.style.color = "#fff";
+setTimeout(() => {
+bouton.innerText = "+ LOAD ITEM";
+bouton.style.background = "#00ffff";
+bouton.style.color = "#000";
+}, 600);
+}
+function afficherLePanier() {
+const zone = document.getElementById('panier-liste-complete');
+if(monPanier.length === 0) {
+zone.innerHTML = "VOTRE PANIER EST VIDE. COCHEZ DES BLOCS D'ARTICLES.";
+return;
+}
+let html = "";
+monPanier.forEach((item) => {
+html += <div style="display:flex;justify-content:space-between;margin-bottom:8px;border-bottom:1px solid #1a1b26;padding-bottom:4px;"> <div>• <b>${item.nom}</b><br><small style="color:#00ffff">${item.configuration}</small></div> <div style="color:#ff0055;margin-left:auto">${item.prix.toFixed(2)}€</div> </div>;
+});
+zone.innerHTML = html;
+}
+function transmettreSysteme() {
+if (monPanier.length === 0) { alert("ERREUR : BUFFER VIDE !"); return; }
+let t = 🚨 [NOUVELLE COMMANDE PARFUM] :\n;
+let total = 0;
+monPanier.forEach((i) => {
+t += • ${i.nom} [${i.configuration}] — ${i.prix.toFixed(2)}€\n;
+total += i.prix;
+});
+t += \n💰 TOTAL : ${total.toFixed(2)}€\n⚡ PROTOCOLE : MAIN PROPRE.;
+
+
+// Envoi de la commande via l'interface du bot sans pseudo
+tg.sendData(t);
+tg.close();
+}
