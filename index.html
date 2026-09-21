@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaTa Erina</title>
+    <style>
+        /* 🌌 DESIGN ANIME CYBERPUNK NÉON */
+        body { font-family: 'Impact', sans-serif; background: #05050a; color: #00ffff; padding: 10px; margin: 0; text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        .header { padding: 15px; background: linear-gradient(180deg, #ff0055 0%, rgba(5,5,10,0) 100%); border-bottom: 2px solid #ff0055; text-align: left; position: relative; margin-bottom: 15px;}
+        .logo { font-size: 28px; font-weight: 900; color: #fff; text-shadow: 0 0 10px #ff0055, 0 0 20px #ff0055; }
+        .subtitle { font-size: 11px; color: #8888aa; margin: 0; }
+
+        .zone-infos { background: #0d0e15; border: 1px dashed #00ffff; padding: 12px; border-radius: 6px; text-align: left; font-size: 12px; margin-bottom: 20px; font-family: sans-serif; color: #fff; }
+        .zone-infos strong { color: #ff0055; }
+
+        .grille-produits { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 5px; margin-bottom: 110px; }
+        .produit-card { background: #0d0e15; border: 1px solid #202232; position: relative; padding: 8px; clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%); display: flex; flex-direction: column; justify-content: space-between; height: 260px; }
+        
+        /* Style de la zone vidéo */
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; background: #000; border-radius: 4px; border: 1px solid #1a1b26; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        
+        .produit-card h3 { font-size: 13px; margin: 6px 0 2px 0; color: #fff; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .select-option { width: 100%; padding: 6px; background: #141526; border: 1px solid #ff0055; color: #fff; font-size: 11px; margin-bottom: 6px; outline: none; }
+        .prix-produit { color: #ff0055; font-weight: bold; font-size: 16px; margin-bottom: 6px; text-shadow: 0 0 5px rgba(255,0,85,0.5); }
+        .btn-add { background: #00ffff; color: #000; border: none; padding: 10px; font-size: 11px; font-weight: 900; width: 100%; cursor: pointer; text-transform: uppercase; }
+
+        .hud-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #0d0e15; border-top: 2px solid #ff0055; padding: 15px; display: flex; justify-content: space-between; align-items: center; z-index: 999; box-shadow: 0 -5px 15px rgba(0,0,0,0.8); }
+        .hud-total-info { text-align: left; }
+        .hud-total-info span { font-size: 10px; color: #8888aa; display: block; font-family: sans-serif; }
+        .hud-total-info strong { font-size: 20px; color: #00ffff; text-shadow: 0 0 5px #00ffff; }
+        .btn-execute { background: #ff0055; color: #fff; border: none; padding: 12px 20px; font-weight: 900; font-size: 13px; cursor: pointer; box-shadow: 0 0 10px #ff0055; text-transform: uppercase; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="logo">AICHA CORPS</div>
+        <div class="subtitle">Parfums // Marché Nexus</div>
+    </div>
+
+    <div class="zone-infos">
+        ⚙️ <strong>HORAIRES :</strong> LUNDI - SAMEDI : 10H00 - 20H00<br><br>
+        📍 <strong>LIVRAISON :</strong> MAIN PROPRE (CENTRE-VILLE / GARE)
+    </div>
+
+    <div class="grille-produits">
+        
+        <!-- PARFUM 1 -->
+        <div class="produit-card">
+            <div class="video-container">
+                <!-- 💥 COLLER LE LIEN DE VOTRE VIDÉO 1 ENTRE LES GUILLEMETS CI-DESSOUS 💥 -->
+                <iframe src=" https://vm.tiktok.com/ZN8MNnq9v/" allowfullscreen></iframe>
+            </div>
+            <h3>AICHA #1</h3>
+            <select class="select-option" onchange="majPrixCard(this)">
+                <option value="5" data-txt="1 ML (+1ml Offert)">1 ML (+1ml Offert) — 5€</option>
+                <option value="10" data-txt="3 ML (+1ml Offert)">3 ML (+1ml Offert) — 10€</option>
+                <option value="15" data-txt="5 ML (+1ml Offert)">5 ML (+1ml Offert) — 15€</option>
+                <option value="25" data-txt="10 ML (+1ml Offert)">10 ML (+1ml Offert) — 25€</option>
+            </select>
+            <div class="prix-produit">5.00 €</div>
+            <button class="btn-add" onclick="ajouterAuPanier('AICHA #1', this)">+ AJOUTER 🛒</button>
+        </div>
+
+        <!-- PARFUM 2 -->
+        <div class="produit-card">
+            <div class="video-container">
+                <!-- 💥 COLLER LE LIEN DE VOTRE VIDÉO 2 ENTRE LES GUILLEMETS CI-DESSOUS 💥 -->
+                <iframe src="https://vm.tiktok.com/ZN8MNnq9v/" allowfullscreen></iframe>
+            </div>
+            <h3>AICHA #2</h3>
+            <select class="select-option" onchange="majPrixCard(this)">
+                <option value="5" data-txt="1 ML (+1ml Offert)">1 ML (+1ml Offert) — 5€</option>
+                <option value="10" data-txt="3 ML (+1ml Offert)">3 ML (+1ml Offert) — 10€</option>
+                <option value="15" data-txt="5 ML (+1ml Offert)">5 ML (+1ml Offert) — 15€</option>
+                <option value="25" data-txt="10 ML (+1ml Offert)">10 ML (+1ml Offert) — 25€</option>
+            </select>
+            <div class="prix-produit">5.00 €</div>
+            <button class="btn-add" onclick="ajouterAuPanier('AICHA #2', this)">+ AJOUTER 🛒</button>
+        </div>
+
+        <!-- PARFUM 3 -->
+        <div class="produit-card">
+            <div class="video-container">
+                <!-- 💥 COLLER LE LIEN DE VOTRE VIDÉO 3 ENTRE LES GUILLEMETS CI-DESSOUS 💥 -->
+                <iframe src="https://vm.tiktok.com/ZN8MNnq9v/" allowfullscreen></iframe>
+            </div>
+            <h3>AICHA #3</h3>
+            <select class="select-option" onchange="majPrixCard(this)">
+                <option value="5" data-txt="1 ML (+1ml Offert)">1 ML (+1ml Offert) — 5€</option>
+                <option value="10" data-txt="3 ML (+1ml Offert)">3 ML (+1ml Offert) — 10€</option>
+                <option value="15" data-txt="5 ML (+1ml Offert)">5 ML (+1ml Offert) — 15€</option>
+                <option value="25" data-txt="10 ML (+1ml Offert)">10 ML (+1ml Offert) — 25€</option>
+            </select>
+            <div class="prix-produit">5.00 €</div>
+            <button class="btn-add" onclick="ajouterAuPanier('AICHA #3', this)">+ AJOUTER 🛒</button>
+        </div>
+
+        <!-- PARFUM 4 -->
+        <div class="produit-card">
+            <div class="video-container">
+                <!-- 💥 COLLER LE LIEN DE VOTRE VIDÉO 4 ENTRE LES GUILLEMETS CI-DESSOUS 💥 -->
+                <iframe src="LIEN_DE_VOTRE_VIDEO_4" allowfullscreen></iframe>
+            </div>
+            <h3>AICHA #4</h3>
+            <select class="select-option" onchange="majPrixCard(this)">
+                <option value="5" data-txt="1 ML (+1ml Offert)">1 ML (+1ml Offert) — 5€</option>
+                <option value="10" data-txt="3 ML (+1ml Offert)">3 ML (+1ml Offert) — 10€</option>
+                <option value="15" data-txt="5 ML (+1ml Offert)">5 ML (+1ml Offert) — 15€</option>
+                <option value="25" data-txt="10 ML (+1ml Offert)">10 ML (+1ml Offert) — 25€</option>
+            </select>
+            <div class="prix-produit">5.00 €</div>
+            <button class="btn-add" onclick="ajouterAuPanier('AICHA #4', this)">+ AJOUTER 🛒</button>
+        </div>
+
+    </div>
+
+    <div class="hud-bar">
+        <div class="hud-total-info">
+            <span id="panier-compteur">0 FLACON SÉLECTIONNÉ</span>
+            <strong id="panier-total-prix">0.00 €</strong>
+        </div>
+        <button class="btn-execute" onclick="validerEtEnvoyer()">VALIDER LA COMMANDE ⚡</button>
+    </div>
+
+    <script src="https://t.me/maxipaff91"></script>
+    <script>
+        var panierGlobal = [];
+
+        function majPrixCard(selectElement) {
+            var prixChoisi = parseFloat(selectElement.value).toFixed(2);
+            selectElement.parentElement.querySelector('.prix-produit').innerText = prixChoisi + " €";
+        }
+
+        function ajouterAuPanier(nomParfum, boutonElement) {
+            var card = boutonElement.parentElement;
+            var select = card.querySelector('.select-option');
+            var optionSelectionnee = select.options[select.selectedIndex];
+            
+            var tailleTexte = optionSelectionnee.getAttribute('data-txt');
+            var prixValeur = parseFloat(select.value);
+
+            panierGlobal.push({ nom: nomParfum, taille: tailleTexte, prix: prixValeur });
+            
+            var totalArticles = panierGlobal.length;
+            var prixTotalCumule = 0;
+            for (var i = 0; i < panierGlobal.length; i++) {
+                prixTotalCumule = prixTotalCumule + panierGlobal[i].prix;
+            }
+
+            document.getElementById('panier-compteur').innerText = totalArticles + " FLACON(S) SÉLECTIONNÉ(S)";
+            document.getElementById('panier-total-prix').innerText = prixTotalCumule.toFixed(2) + " €";
+
+            boutonElement.innerText = "AJOUTÉ ! ✓";
+            boutonElement.style.background = "#ff0055";
+            boutonElement.style.color = "#fff";
+            setTimeout(function() {
+                boutonElement.innerText = "+ AJOUTER 🛒";
+                boutonElement.style.background = "#00ffff";
+                boutonElement.style.color = "#000";
+            }, 600);
+        }
+
+        function validerEtEnvoyer() {
+            if (panierGlobal.length === 0) { alert("VOTRE PANIER EST VIDE !"); return; }
+            var texteFinal = "🚨 [NOUVELLE COMMANDE PARFUM] :\n";
+            var totalArgent = 0;
+            for (var j = 0; j < panierGlobal.length; j++) {
+                texteFinal = texteFinal + "• " + panierGlobal[j].nom + " [" + panierGlobal[j].taille + "] — " + panierGlobal[j].prix.toFixed(2) + "€\n";
+
+totalArgent = totalArgent + panierGlobal[j].prix;
+}
+texteFinal = texteFinal + "\n💰 TOTAL : " + totalArgent.toFixed(2) + "€\n⚡ PROTOCOLE : MAIN PROPRE.";
+window.open("t.me" + encodeURIComponent(texteFinal), "_blank");
+}
